@@ -4,35 +4,21 @@
   box-sizing: border-box;
 }
 
-
-
-
-
-
 :root {
-  --primary: #3b4550;
-  --primary-dark: #0a3d66;
-  --primary-hover: #0d5ba8;
-  --primary-light: #09f;
-  --background: #06182a;
-  --text-primary: #ffffff;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.1);
-  --card-bg: #1e293b;
-  --shadow: rgba(0, 0, 0, 0.3);
-  --input-bg: #1e293b;
-  --hsla-example: hsla(210, 100%, 56%, 1);
+    --primary: #1173d4;
+    --primary-dark: #0a3d66;
+    --primary-hover: #0d5ba8;
+    --primary-light: #09f;
+    --background: #101922;
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border: rgba(255, 255, 255, 0.1);
+    --card-bg: #1e293b;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --input-bg: #1e293b;
+    --hsla-example: hsla(210, 100%, 56%, 1);
 }
-
-
-
-
-
-
-
-
-
 
 @font-face {
   font-family: 'Inter Variable';
