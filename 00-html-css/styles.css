@@ -5,19 +5,19 @@
 }
 
 :root {
-    --primary: #1173d4;
-    --primary-dark: #0a3d66;
-    --primary-hover: #0d5ba8;
-    --primary-light: #09f;
-    --background: #101922;
-    --text-primary: #ffffff;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --border: rgba(255, 255, 255, 0.1);
-    --card-bg: #1e293b;
-    --shadow: rgba(0, 0, 0, 0.5);
-    --input-bg: #1e293b;
-    --hsla-example: hsla(210, 100%, 56%, 1);
+  --primary: #1173d4;
+  --primary-dark: #0a3d66;
+  --primary-hover: #0d5ba8;
+  --primary-light: #09f;
+  --background: #101922;
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --card-bg: #1e293b;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --input-bg: #1e293b;
+  --hsla-example: hsla(210, 100%, 56%, 1);
 }
 
 @font-face {
@@ -29,15 +29,6 @@
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
-
-
-
-
-
-
-
-
-
 body {
   font-family: system-ui;
   background-color: var(--background);
@@ -47,18 +38,6 @@ body {
   flex-direction: column;
   line-height: 1.6;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Títulos principales */
 h1 {
@@ -75,14 +54,21 @@ h1 + p {
 }
 
 /* Header */
-header {
+body > header {
   border-bottom: 1px solid var(--border);
+}
+
+header {
   background: var(--background);
   padding: .5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+
+  a {
+    text-decoration: none;
+  }
 
   h2 {
     font-size: 1.25rem;
@@ -283,9 +269,12 @@ main > section:nth-child(2) footer {
 } */
 
 /* Footer */
+body > footer {
+  border-top: 1px solid var(--border);
+}
+
 footer {
   background-color: var(--background);
-  border-top: 1px solid var(--border);
   text-align: center;
   padding: 16px;
 
