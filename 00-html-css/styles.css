@@ -6,7 +6,7 @@
 
 :root {
   --primary: #1173d4;
-  --primary-dark: #0a3d66;
+  --primary-dark: #093558;
   --primary-hover: #0d5ba8;
   --primary-light: #09f;
   --background: #101922;
@@ -60,7 +60,7 @@ body > header {
 
 header {
   background: var(--background);
-  padding: .5rem 1rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -97,6 +97,10 @@ nav {
 }
 
 /* Botones del Header */
+header > div {
+  display: flex;
+  gap: 1rem;
+}
 header div a {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
@@ -107,6 +111,11 @@ header div a {
   font-weight: 700;
   text-decoration: none;
   /* TODO */
+}
+
+header div a:nth-child(1) {
+  background-color: var(--primary-dark);
+  color: var(--primary);
 }
 
 /* Hero */
