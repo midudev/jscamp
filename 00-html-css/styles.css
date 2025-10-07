@@ -126,7 +126,7 @@ nav {
 
 /* Botones del Header */
 header div a {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   border-radius: 0.5rem;
   background-color: #334155;
   color: var(--text-primary);
@@ -134,7 +134,13 @@ header div a {
   font-size: 0.875rem;
   font-weight: 700;
   text-decoration: none;
+  text-align: center;
   /* TODO */
+}
+
+header div a:first-child {
+  background-color: var(--primary-dark);
+  color: var(--primary-light);
 }
 
 /* Hero */
@@ -206,7 +212,7 @@ form input[type="text"]::placeholder {
 form button[type="submit"] {
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
-  background-color: var(--primary);
+  background-color: var(--primary-light);
   color: white;
   font-weight: 700;
   border: none;
