@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevJobs - Resultados de búsqueda</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="search-results-styles.css" />
+</head>
+
+<body>
+
+    <!--header de la pagina-->
+    <header>
+
+            <h1>DevJobs</h1>
+
+    <nav>
+        <a href="./index.html">Inicio</a>
+        <a href="">Empleos</a>
+        <a href="">Empresas</a>
+        <a href="">salarios</a>
+    </nav>
+
+    <div class="user-cv">
+        <a href="">subir CV</a>
+        <img src="user-icon.png" alt="icono de usuario" />
+    </div>
+    </header>
+
+    <!--seccion de busqueda-->
+    <main>
+        <section>
+            <h1>Encuentra tu próximo trabajo</h1>
+            <p>Explora miles de oportunidades en el sector tecnológico</p>
+
+            <form role="search">
+                <div class="icon-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                    <path d="M21 21l-6 -6" />
+                    </svg>
+                    <input type="text" placeholder="Buscar trabajos, empresas o habilidades"/>
+                </div>
+
+                <div class="filters">
+                    <select>
+                        <option selected >Tecnología</option>
+                        <option value="java">Java</option>
+                        <option value="python">Python</option>
+                        <option value="react">React</option>
+                    </select>
+
+                    <select>
+                        <option selected >Ubicación</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+
+                    <select>
+                        <option selected >Tipo de contrato</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+
+                    <select>
+                        <option selected >Experiencia</option>
+                        <option value="junior">Junior</option>
+                        <option value="mid-level">Mid-level</option>
+                        <option value="senior">Senior</option>
+                    </select>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>
