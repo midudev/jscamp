@@ -146,6 +146,7 @@ input::placeholder {
     color: var(--text-muted);
 }
 
+/* Filtros de busqueda */
 .filters {
     display: flex;
     margin:1rem;
@@ -182,5 +183,91 @@ input::placeholder {
 
 }
 
+/* styles resultados de busqueda */
+.results-section {
+    margin-top: 2rem;
+    text-align: left;
+    width: 85vw;
+    margin-left: auto;
+    margin-right: auto;
+}   
 
+.results-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
 
+article {
+    border: 1px solid var(--border);
+    margin-inline: auto;
+    text-align: left;
+    display: flex;
+    width: 85vw;
+    justify-content: space-between;          
+    padding: 1rem;  
+}
+
+article small {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+article p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+article a {
+    text-decoration: none;
+    color: var(--text-primary);
+    background-color: var(--primary-light);
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.results-section > article:last-child {
+    border-radius: 0px 0px 10px 10px;
+}
+
+.results-section > :nth-child(2) {
+    border-radius: 10px 10px 0px 0px;
+}
+
+/*pagination styles*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    gap: 0.5rem;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+}
+
+.pagination a:hover,
+.pagination a:focus {
+    background-color: var(--primary-light);
+    color: var(--text-primary);
+    outline: none;
+}
+
+/*footer styles*/
+footer {
+    background-color: var(--background);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 16px;
+
+    small {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+    }
+}
