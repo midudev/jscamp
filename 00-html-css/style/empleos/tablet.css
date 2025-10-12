@@ -1,0 +1,137 @@
+/* Header */
+header {
+    flex-direction: row;   
+}
+
+header .header-container-top {
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+}
+
+header h2 {    
+    font-size: 2.2rem;
+    text-align: left;
+
+    svg {
+       width: 2.1rem;
+        height: 2.1rem;
+    }
+}
+
+header nav {
+    width: 100%;
+    font-size: 1.6rem;   
+    gap: 1.2rem;
+    padding-top: 0;
+}
+
+header div { 
+    width: 40%;   
+    gap: 1.2rem;
+    padding-top: 0;
+}
+
+header div .header-div-btn-primary {
+    font-size: 1.4rem;    
+}
+
+header div .header-div-btn-secondary {
+    font-size: 1.4rem;    
+}
+
+header div .header-div-btn-primary:hover,
+header div .header-div-btn-secondary:hover {
+    transform: scale(1.1);
+    transition: all;
+}
+
+/* Main */
+main .main-section-top h1 {
+    font-size: 3.5rem;    
+}
+
+main .main-section-top p {
+    font-size: 1.6rem;    
+}
+
+main form label input {
+    font-size: 1.5rem;
+    padding: 1.2rem;       
+}
+
+main form .main-div-btns {
+    grid-template-columns: 1fr 1fr 1fr 1fr;    
+}
+
+main form .main-div-btns button {
+    cursor: pointer;        
+}
+
+/* main cards */
+main .card h2 {
+    font-size: 2.5rem;    
+}
+
+main .card div {
+    padding: 1.2rem 1rem;    
+}
+
+main .card div article {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;    
+}
+
+main .card div article .main-card-div-article-container-text {
+    width: 100%;
+    display: flex;
+}
+
+main .card div article .main-card-div-article-container-text h3 {
+    width: 100%;
+    text-align: left;
+}
+
+main .card div article .main-card-div-article-container-text span {
+    width: 100%;
+    text-align: left;
+}
+
+main .card div article .main-card-div-article-container-text p {
+    width: 100%;    
+    font-size: 1.35rem;
+    line-height: 2rem;
+    padding-bottom: 1.2rem;            
+}
+
+main .card div article .main-card-div-btn {
+    width: 30%;               
+}
+
+main .card div article .main-card-div-btn button {  
+    cursor: pointer;               
+}
+
+/* pagination */
+main .pagination {
+    font-size: 1.5rem;    
+    gap: 3.5rem;
+
+    a {
+        &:hover, &:focus {
+        background-color: #fff;
+    }
+    }
+    
+    svg {
+        width: 2rem;
+        height: 2rem; 
+    }
+}
+
+/* footer */
+footer {
+    font-size: 1.8rem;       
+}

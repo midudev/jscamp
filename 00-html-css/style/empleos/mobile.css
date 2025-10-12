@@ -1,0 +1,301 @@
+:root {
+  --primary: #3b4550;
+  --primary-dark: #0a3d66;
+  --primary-hover: #0d5ba8;
+  --primary-light: #09f;
+  --background: #06182a;
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --card-bg: #1e293b;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --input-bg: #1e293b;
+  --hsla-example: hsla(210, 100%, 56%, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--background);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.6rem; 
+}
+
+/* Patron del proyecto */
+a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+/* Header */
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--text-primary);
+    justify-content: space-between;
+    flex-direction: column;    
+    padding: 4rem 2rem 2.5rem 2rem;
+}
+
+header h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 2.5rem;
+
+    svg {
+        color: var(--primary-light);
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+}
+
+header nav {
+   display: flex;
+   justify-content: center;
+   font-size: 1.4rem;
+   gap: 0.5rem;
+   padding-top: 1rem;
+   padding-left: 1rem;
+   padding-right: 1rem;
+}
+
+header div {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+}
+
+header div .header-div-btn-primary {
+    background-color: var(--input-bg);
+    border-radius: 15px;
+    color: var(--primary-hover);
+    cursor: pointer;
+    font-size: 1.4rem;     
+    padding: 1rem;
+}
+
+header div .header-div-btn-secondary {
+    background-color: var(--primary);
+    border-radius: 15px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1.4rem;     
+    padding: 1rem;
+}
+
+/* Main */
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    flex-direction: column;    
+}
+
+main .main-section-top {
+    width: 100%;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 2.5rem;
+}
+
+main .main-section-top h1 {
+    font-size: 3rem;
+    padding-bottom: 2rem;
+    text-align: center;
+}
+
+main .main-section-top p {
+    color: var(--text-muted);
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+main form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+main form label {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--border);
+    border-radius: 1.5rem;
+    background-color: var(--primary);
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+}
+
+main form label input {
+    width: 100%;
+    border: none;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    padding: 1rem;
+    outline: none;
+
+    svg {
+        color: var(--text-muted);        
+    }
+    
+}
+
+main form .main-div-btns {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+main form .main-div-btns button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--input-bg);
+    border: none;
+    border-radius: 1rem;
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    padding: 0.5rem;
+}
+
+/* main cards */
+main .card {
+    width: 90%;
+    color: var(--text-secondary);
+    padding-top: 4rem;
+}
+
+main .card h2 {
+    font-size: 2rem;
+    padding: 2.5rem 0rem;
+}
+
+main .card div {
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;    
+}
+
+main .card div hr {
+    width: 100%;
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+main .card div article {
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;    
+}
+
+main .card div article .main-card-div-article-container-text {
+    border: none;
+}
+
+main .card div article h3 {
+    font-size: 2rem;
+    padding-bottom: 0.3rem;       
+}
+
+main .card div article span {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    padding-top: 0.3rem;            
+}
+
+main .card div article p {    
+    font-size: 1.33rem;
+    line-height: 2.5rem;
+    padding-top: 2rem;    
+}
+
+main .card div article .main-card-div-btn {
+    border: none;
+}
+
+main .card div article .main-card-div-btn button {
+    background-color: var(--primary-light);
+    border-radius: 1rem;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding: 2rem;    
+}
+
+/* pagination */
+main .pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    font-size: 1.5rem;    
+    gap: 1rem;
+    padding-top: 2.5rem;
+
+    a {
+        border-radius: 1.7rem;
+        color: var(--text-muted);
+        padding: 1.5rem;
+        transition: all .3s;
+
+        &:active {
+            transform: scale(0.90);
+        }
+
+        &.is-active {
+            background-color: var(--primary-light);
+            color: var(--text-primary);
+            pointer-events: none;
+        }
+    }
+    
+    svg {
+        color: var(--text-secondary);
+        width: 2rem;
+        height: 2rem; 
+    }
+}
+
+/* footer */
+footer {
+    width: 100%;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    text-align: center;    
+}

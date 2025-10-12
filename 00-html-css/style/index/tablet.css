@@ -1,0 +1,107 @@
+/* Header */
+header {
+    flex-direction: row;   
+}
+
+header .header-container-top {
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+}
+
+header h2 {    
+    font-size: 2.2rem;
+    text-align: left;
+
+    svg {
+       width: 2.1rem;
+        height: 2.1rem;
+    }
+}
+
+header nav {
+    width: 100%;
+    font-size: 1.6rem;   
+    gap: 1.2rem;
+}
+
+header div { 
+    width: 100%;   
+    gap: 1.2rem;
+}
+
+header div .header-div-btn-primary {
+    font-size: 1.4rem;    
+}
+
+header div .header-div-btn-secondary {
+    font-size: 1.4rem;    
+}
+
+header div .header-div-btn-primary:hover,
+header div .header-div-btn-secondary:hover {
+    transform: scale(1.1);
+    transition: all;
+}
+
+/* Main */
+/* Main top */
+main .main-section-top {
+    height: 45vh;    
+}
+
+main .main-section-top h1 {
+    font-size: 3rem;    
+}
+
+main .main-section-top p {
+    width: 65%;
+    font-size: 1.6rem;        
+}
+
+main .main-section-top form {
+    width: 80%;       
+}
+
+main .main-section-top form div input {
+    font-size: 1.7rem;    
+}
+
+main .main-section-top form button {
+    font-size: 1.5rem;
+    padding: 1.6rem;
+}
+
+main .main-section-top form button:hover {
+    transform: scale(1.1);
+}
+
+/* Main footer */
+main .main-section-bottom header h2 {
+    font-size: 2.3rem;    
+}
+
+main .main-section-bottom header p {
+    width: 84%;
+    font-size: 1.4rem;
+    line-height: 2.4rem;    
+}
+
+main .main-section-bottom footer article svg {
+    width: 6rem;
+    height: 6rem;
+}
+
+main .main-section-bottom footer article h3 {
+    font-size: 1.6rem;    
+}
+
+main .main-section-bottom footer article p {
+    font-size: 1.4rem;
+}
+
+/* footer */
+.footer {
+    font-size: 1.7rem;
+    padding-top: 1.5rem;        
+}
