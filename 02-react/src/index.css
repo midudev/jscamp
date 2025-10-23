@@ -426,8 +426,10 @@ article {
     margin: 0;
 
     display: flex; /* valor original */
-    align-items: start;
+    justify-content: space-between;
+    align-items: center;
     gap: 1rem;
+    padding: 1rem;
 
     &.is-hidden {
       display: none;
