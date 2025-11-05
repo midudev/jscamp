@@ -1,3 +1,5 @@
+import DevjobsAvatar from "./DevjobsAvatar";
+
 export function Header () {
   return (
     <header>
@@ -13,7 +15,7 @@ export function Header () {
       <nav>
         <a href="">Empleos</a>
       </nav>
-
+      <DevjobsAvatar />
     </header>
   )
 }
