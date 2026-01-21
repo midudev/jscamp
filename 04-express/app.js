@@ -14,3 +14,5 @@ app.use('/jobs', jobsRouter)
 app.listen(PORT, () => {
   console.log(`Servidor levantado en http://localhost:${PORT}`)
 })
+
+export default app

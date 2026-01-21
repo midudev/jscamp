@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { JobController } from '../controllers/jobs'
+import { JobController } from '../controllers/jobs.js'
 
-const jobsRouter = Router()
+export const jobsRouter = Router()
 
 jobsRouter.get('/', JobController.getAll)
 jobsRouter.get('/:id', JobController.getId)
