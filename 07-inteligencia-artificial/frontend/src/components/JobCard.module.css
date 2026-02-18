@@ -1,0 +1,28 @@
+.title {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.details {
+  color: #09f;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

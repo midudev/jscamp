@@ -1,18 +1,19 @@
 {
   "name": "07-inteligencia-artificial",
   "version": "1.0.0",
-  "description": "API de inteligencia artificial con Express",
-  "main": "app.js",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
-    "start": "node app.js",
-    "dev": "node --watch app.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:backend": "npm run watch --workspace=backend",
+    "watch:frontend": "npm run dev --workspace=frontend"
   },
   "keywords": [],
-  "author": "midudev",
+  "author": "",
   "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "express": "^5.2.1",
-    "cors": "^2.8.5"
-  }
+  "type": "commonjs"
 }

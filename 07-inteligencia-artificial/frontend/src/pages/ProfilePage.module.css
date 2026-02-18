@@ -1,0 +1,170 @@
+.container {
+  background: rgba(25, 25, 35, 0.8);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.avatar svg {
+  width: 60px;
+  height: 60px;
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.email {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infoLabel {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.infoValue {
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.experienceItem {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.experienceItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.experienceTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.experienceCompany {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.experienceDescription {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skill {
+  background: rgba(9, 159, 255, 0.1);
+  border: 1px solid rgba(9, 159, 255, 0.3);
+  color: #09f;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editButton {
+  flex: 1;
+  background: #09f;
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.editButton:hover {
+  background: #0088e6;
+}
+
+.logoutButton {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 640px) {
+  .actions {
+    flex-direction: column;
+  }
+}

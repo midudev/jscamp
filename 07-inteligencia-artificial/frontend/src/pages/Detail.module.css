@@ -1,0 +1,127 @@
+/* pages/JobDetail.module.css */
+.container {
+  padding-block: 2rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.loading,
+.error {
+  padding-block: 5rem;
+  text-align: center;
+}
+
+.loadingText {
+  color: var(--text-muted);
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.errorButton {
+  color: #09f;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.errorButton:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.breadcrumbButton {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  text-decoration: none;
+}
+
+.breadcrumbButton:hover {
+  color: var(--text-primary);
+}
+
+.breadcrumbSeparator {
+  margin: 0 0.5rem;
+}
+
+.breadcrumbCurrent {
+  color: var(--text-primary);
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.meta {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.applyButton {
+  width: 100%;
+  background: #09f;
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  margin-bottom: 3rem;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.applyButton:hover {
+  background: #0088e6;
+}
+
+.applyButton:disabled {
+  background: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.applyButton:disabled:hover {
+  background: #666;
+}
+
+@media (min-width: 640px) {
+  .applyButton {
+    width: auto;
+  }
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.sectionContent {
+  color: var(--text-secondary);
+}

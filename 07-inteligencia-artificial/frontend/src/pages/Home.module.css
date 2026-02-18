@@ -1,0 +1,41 @@
+.section {
+  max-width: 1280px;
+  margin: 1rem auto;
+  padding: 5rem 1rem;
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 42rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  header {
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    p {
+      opacity: .75;
+    }
+  }
+
+  div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px
+  }
+
+  article {
+    text-align: center;
+  }
+}
