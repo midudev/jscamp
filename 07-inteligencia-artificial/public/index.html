@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control — API Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --bg-deep: #06080d;
+      --bg-surface: #0c1018;
+      --bg-card: #111820;
+      --bg-card-hover: #161e2a;
+      --border: #1a2332;
+      --border-glow: #1e3a52;
+      --text-primary: #e4e8ef;
+      --text-secondary: #7a8a9e;
+      --text-muted: #3d4f65;
+      --accent-green: #00e59b;
+      --accent-green-dim: #00e59b33;
+      --accent-amber: #ffb020;
+      --accent-amber-dim: #ffb02033;
+      --accent-red: #ff4060;
+      --accent-red-dim: #ff406033;
+      --accent-cyan: #00c2ff;
+      --accent-cyan-dim: #00c2ff22;
+      --font-display: 'Outfit', system-ui, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Ambient glow ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -40%;
+      left: -20%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(ellipse, var(--accent-cyan-dim) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--bg-deep);
+      font-family: var(--font-mono);
+      letter-spacing: -1px;
+    }
+
+    .logo-text h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-text span {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 400;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+      color: var(--text-primary);
+    }
+
+    .btn-primary {
+      background: var(--accent-cyan);
+      color: var(--bg-deep);
+      border-color: var(--accent-cyan);
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: #33d0ff;
+      border-color: #33d0ff;
+      color: var(--bg-deep);
+      box-shadow: 0 0 20px var(--accent-cyan-dim);
+    }
+
+    .btn-primary:active { transform: scale(0.97); }
+
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .toggle {
+      width: 40px;
+      height: 22px;
+      border-radius: 11px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .toggle.active {
+      background: var(--accent-green-dim);
+      border-color: var(--accent-green);
+    }
+
+    .toggle.active::after {
+      transform: translateX(18px);
+      background: var(--accent-green);
+    }
+
+    /* ── Cards grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-glow);
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .card-sub {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      font-family: var(--font-mono);
+    }
+
+    /* ── Status card specifics ── */
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .status-dot::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      opacity: 0.3;
+      animation: pulse-ring 2s ease-out infinite;
+    }
+
+    .status-dot.offline {
+      background: var(--accent-red);
+    }
+
+    .status-dot.offline::before {
+      background: var(--accent-red);
+      animation: none;
+    }
+
+    .status-dot.warning {
+      background: var(--accent-amber);
+    }
+
+    .status-dot.warning::before {
+      background: var(--accent-amber);
+      animation: pulse-ring 1s ease-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.3; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    /* ── Uptime digits ── */
+    .uptime-display {
+      display: flex;
+      gap: 0.25rem;
+      align-items: baseline;
+    }
+
+    .uptime-segment {
+      display: flex;
+      align-items: baseline;
+      gap: 0.15rem;
+    }
+
+    .uptime-num {
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      min-width: 2ch;
+      text-align: right;
+      letter-spacing: -0.02em;
+    }
+
+    .uptime-unit {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-right: 0.5rem;
+    }
+
+    /* ── Rate limit gauge ── */
+    .rate-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .rate-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .gauge-track {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-deep);
+      border-radius: 3px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .gauge-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--accent-cyan);
+      transition: width 0.5s ease, background 0.3s ease;
+    }
+
+    .gauge-fill.warn { background: var(--accent-amber); }
+    .gauge-fill.danger { background: var(--accent-red); }
+
+    .rate-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+
+    .rate-stat {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .rate-stat strong {
+      color: var(--text-secondary);
+    }
+
+    /* ── Log panel ── */
+    .log-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .log-header h2 {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 400;
+    }
+
+    .log-count {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--bg-deep);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .log-body {
+      max-height: 320px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .log-body::-webkit-scrollbar { width: 6px; }
+    .log-body::-webkit-scrollbar-track { background: transparent; }
+    .log-body::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .log-entry {
+      display: grid;
+      grid-template-columns: auto 70px 1fr auto;
+      gap: 1rem;
+      padding: 0.7rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      align-items: center;
+      animation: log-in 0.3s ease-out;
+    }
+
+    .log-entry:last-child { border-bottom: none; }
+
+    @keyframes log-in {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .log-time { color: var(--text-muted); white-space: nowrap; }
+
+    .log-status {
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .log-status.ok {
+      background: var(--accent-green-dim);
+      color: var(--accent-green);
+    }
+
+    .log-status.error {
+      background: var(--accent-red-dim);
+      color: var(--accent-red);
+    }
+
+    .log-status.rate-limited {
+      background: var(--accent-amber-dim);
+      color: var(--accent-amber);
+    }
+
+    .log-message { color: var(--text-secondary); }
+
+    .log-latency {
+      color: var(--text-muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .log-empty {
+      padding: 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    /* ── Warning banner ── */
+    .warning-banner {
+      background: var(--accent-amber-dim);
+      border: 1px solid var(--accent-amber);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-amber);
+      animation: banner-in 0.3s ease;
+    }
+
+    .warning-banner.visible { display: flex; }
+
+    .warning-banner.error-banner {
+      background: var(--accent-red-dim);
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+    }
+
+    @keyframes banner-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Entrance animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fade-up 0.6s ease forwards;
+    }
+
+    @keyframes fade-up {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+    .delay-4 { animation-delay: 0.32s; }
+    .delay-5 { animation-delay: 0.40s; }
+    .delay-6 { animation-delay: 0.48s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .rate-section { grid-template-columns: 1fr; }
+      header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .uptime-num { font-size: 1.5rem; }
+      .log-entry { grid-template-columns: auto 60px 1fr; }
+      .log-latency { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <div class="container">
+    <header class="fade-up">
+      <div class="logo-group">
+        <div class="logo-icon">API</div>
+        <div class="logo-text">
+          <h1>Panel de Control</h1>
+          <span>Express 5 &middot; Monitor en tiempo real</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="toggle-wrap">
+          <span>Auto</span>
+          <div class="toggle active" id="autoToggle" title="Actualizar automáticamente"></div>
+        </div>
+        <button class="btn btn-primary" id="fetchBtn">Consultar API</button>
+      </div>
+    </header>
+
+    <div id="warningBanner" class="warning-banner">
+      <span id="warningText"></span>
+    </div>
+
+    <div class="grid">
+      <div class="card fade-up delay-1">
+        <div class="card-label">Estado del servidor</div>
+        <div class="status-indicator">
+          <div class="status-dot" id="statusDot"></div>
+          <div>
+            <div class="card-value" id="statusText">--</div>
+            <div class="card-sub" id="statusEndpoint">GET /</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card fade-up delay-2">
+        <div class="card-label">Tiempo activo</div>
+        <div class="uptime-display" id="uptimeDisplay">
+          <div class="uptime-segment">
+            <span class="uptime-num" id="uptD">0</span><span class="uptime-unit">d</span>
+          </div>
+          <div class="uptime-segment">
+            <span class="uptime-num" id="uptH">00</span><span class="uptime-unit">h</span>
+          </div>
+          <div class="uptime-segment">
+            <span class="uptime-num" id="uptM">00</span><span class="uptime-unit">m</span>
+          </div>
+          <div class="uptime-segment">
+            <span class="uptime-num" id="uptS">00</span><span class="uptime-unit">s</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card fade-up delay-3">
+        <div class="card-label">Marca de tiempo</div>
+        <div class="card-value" id="timestampValue" style="font-size:1.1rem;font-family:var(--font-mono);font-weight:400;">--</div>
+        <div class="card-sub" id="timestampRaw">--</div>
+      </div>
+    </div>
+
+    <div class="rate-section">
+      <div class="rate-card fade-up delay-4">
+        <div class="card-label">Límite de peticiones</div>
+        <div style="display:flex;align-items:baseline;gap:0.5rem;">
+          <span class="card-value" id="reqCount" style="font-family:var(--font-mono);">0</span>
+          <span style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.8rem;">/ 30 por minuto</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill" id="rateFill" style="width:0%"></div>
+        </div>
+        <div class="rate-stats">
+          <span class="rate-stat">Usadas: <strong id="rateUsed">0</strong></span>
+          <span class="rate-stat">Restantes: <strong id="rateRemain">30</strong></span>
+        </div>
+      </div>
+
+      <div class="rate-card fade-up delay-5">
+        <div class="card-label">Estadísticas de sesión</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--accent-green);" id="okCount">0</div>
+            <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:0.2rem;">Exitosas</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--accent-red);" id="errCount">0</div>
+            <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:0.2rem;">Errores</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--accent-cyan);" id="avgLatency">--</div>
+            <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:0.2rem;">Latencia media</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--accent-amber);" id="rateLimitCount">0</div>
+            <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;margin-top:0.2rem;">Rate limited</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-panel fade-up delay-6">
+      <div class="log-header">
+        <h2>Registro de peticiones</h2>
+        <span class="log-count" id="logCount">0 entradas</span>
+      </div>
+      <div class="log-body" id="logBody">
+        <div class="log-empty">Esperando primera consulta a la API...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api'
+    const MAX_LOG = 50
+    const POLL_INTERVAL = 2000
+    const RATE_LIMIT = 30
+
+    let autoRefresh = true
+    let pollTimer = null
+    let logs = []
+    let stats = { ok: 0, errors: 0, rateLimited: 0, latencies: [], requestsInWindow: 0, windowStart: Date.now() }
+
+    // DOM refs
+    const $ = id => document.getElementById(id)
+    const statusDot = $('statusDot')
+    const statusText = $('statusText')
+    const uptD = $('uptD')
+    const uptH = $('uptH')
+    const uptM = $('uptM')
+    const uptS = $('uptS')
+    const timestampValue = $('timestampValue')
+    const timestampRaw = $('timestampRaw')
+    const reqCount = $('reqCount')
+    const rateFill = $('rateFill')
+    const rateUsed = $('rateUsed')
+    const rateRemain = $('rateRemain')
+    const okCount = $('okCount')
+    const errCount = $('errCount')
+    const avgLatency = $('avgLatency')
+    const rateLimitCount = $('rateLimitCount')
+    const logBody = $('logBody')
+    const logCount = $('logCount')
+    const warningBanner = $('warningBanner')
+    const warningText = $('warningText')
+    const autoToggle = $('autoToggle')
+    const fetchBtn = $('fetchBtn')
+
+    // Toggle auto-refresh
+    autoToggle.addEventListener('click', () => {
+      autoRefresh = !autoRefresh
+      autoToggle.classList.toggle('active', autoRefresh)
+      if (autoRefresh) startPolling()
+      else stopPolling()
+    })
+
+    fetchBtn.addEventListener('click', () => fetchApi())
+
+    function formatUptime (seconds) {
+      const d = Math.floor(seconds / 86400)
+      const h = Math.floor((seconds % 86400) / 3600)
+      const m = Math.floor((seconds % 3600) / 60)
+      const s = Math.floor(seconds % 60)
+      return { d, h: String(h).padStart(2, '0'), m: String(m).padStart(2, '0'), s: String(s).padStart(2, '0') }
+    }
+
+    function formatTimestamp (ts) {
+      const date = new Date(ts)
+      return date.toLocaleString('es-ES', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      })
+    }
+
+    function formatTime (date) {
+      return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 })
+    }
+
+    function trackRequest () {
+      const now = Date.now()
+      if (now - stats.windowStart > 60000) {
+        stats.requestsInWindow = 0
+        stats.windowStart = now
+      }
+      stats.requestsInWindow++
+    }
+
+    function updateRateGauge () {
+      const pct = Math.min((stats.requestsInWindow / RATE_LIMIT) * 100, 100)
+      reqCount.textContent = stats.requestsInWindow
+      rateFill.style.width = pct + '%'
+      rateFill.classList.remove('warn', 'danger')
+      if (pct > 80) rateFill.classList.add('danger')
+      else if (pct > 50) rateFill.classList.add('warn')
+      rateUsed.textContent = stats.requestsInWindow
+      rateRemain.textContent = Math.max(RATE_LIMIT - stats.requestsInWindow, 0)
+    }
+
+    function addLog (entry) {
+      logs.unshift(entry)
+      if (logs.length > MAX_LOG) logs.pop()
+      renderLogs()
+    }
+
+    function renderLogs () {
+      logCount.textContent = `${logs.length} entrada${logs.length !== 1 ? 's' : ''}`
+      if (logs.length === 0) {
+        logBody.innerHTML = '<div class="log-empty">Esperando primera consulta a la API...</div>'
+        return
+      }
+      logBody.innerHTML = logs.map(l => {
+        const statusClass = l.rateLimited ? 'rate-limited' : (l.ok ? 'ok' : 'error')
+        const statusLabel = l.rateLimited ? '429' : (l.ok ? '200' : 'ERR')
+        return `<div class="log-entry">
+          <span class="log-time">${l.time}</span>
+          <span class="log-status ${statusClass}">${statusLabel}</span>
+          <span class="log-message">${l.message}</span>
+          <span class="log-latency">${l.latency}ms</span>
+        </div>`
+      }).join('')
+    }
+
+    function showBanner (text, isError = false) {
+      warningBanner.classList.remove('error-banner')
+      if (isError) warningBanner.classList.add('error-banner')
+      warningText.textContent = text
+      warningBanner.classList.add('visible')
+    }
+
+    function hideBanner () {
+      warningBanner.classList.remove('visible')
+    }
+
+    async function fetchApi () {
+      const start = performance.now()
+      const now = new Date()
+      trackRequest()
+
+      try {
+        const res = await fetch(API_URL)
+        const latency = Math.round(performance.now() - start)
+        stats.latencies.push(latency)
+        if (stats.latencies.length > 100) stats.latencies.shift()
+
+        if (res.status === 429) {
+          stats.rateLimited++
+          rateLimitCount.textContent = stats.rateLimited
+          statusDot.className = 'status-dot warning'
+          statusText.textContent = 'Limitado'
+          showBanner('Rate limit alcanzado (429). Espera un momento antes de realizar más peticiones.')
+          addLog({
+            time: formatTime(now),
+            ok: false,
+            rateLimited: true,
+            message: 'Demasiadas peticiones — rate limit alcanzado',
+            latency
+          })
+          updateRateGauge()
+          updateStatsDisplay()
+          return
+        }
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+        const data = await res.json()
+
+        // Update status
+        statusDot.className = 'status-dot'
+        statusText.textContent = 'En línea'
+        hideBanner()
+
+        // Update uptime
+        const up = formatUptime(data.uptime)
+        uptD.textContent = up.d
+        uptH.textContent = up.h
+        uptM.textContent = up.m
+        uptS.textContent = up.s
+
+        // Update timestamp
+        timestampValue.textContent = formatTimestamp(data.timestamp)
+        timestampRaw.textContent = `unix: ${data.timestamp}`
+
+        // Stats
+        stats.ok++
+        okCount.textContent = stats.ok
+
+        addLog({
+          time: formatTime(now),
+          ok: true,
+          rateLimited: false,
+          message: `status: ok — uptime: ${Math.round(data.uptime)}s`,
+          latency
+        })
+      } catch (err) {
+        const latency = Math.round(performance.now() - start)
+        stats.errors++
+        errCount.textContent = stats.errors
+        statusDot.className = 'status-dot offline'
+        statusText.textContent = 'Sin conexión'
+        showBanner(`Error al conectar con la API: ${err.message}`, true)
+
+        addLog({
+          time: formatTime(now),
+          ok: false,
+          rateLimited: false,
+          message: `Error: ${err.message}`,
+          latency
+        })
+      }
+
+      updateRateGauge()
+      updateStatsDisplay()
+    }
+
+    function updateStatsDisplay () {
+      if (stats.latencies.length > 0) {
+        const avg = Math.round(stats.latencies.reduce((a, b) => a + b, 0) / stats.latencies.length)
+        avgLatency.textContent = avg + 'ms'
+      }
+    }
+
+    function startPolling () {
+      stopPolling()
+      pollTimer = setInterval(() => {
+        if (autoRefresh) fetchApi()
+      }, POLL_INTERVAL)
+    }
+
+    function stopPolling () {
+      if (pollTimer) {
+        clearInterval(pollTimer)
+        pollTimer = null
+      }
+    }
+
+    // Initial fetch + start polling
+    fetchApi()
+    startPolling()
+  </script>
+</body>
+</html>
