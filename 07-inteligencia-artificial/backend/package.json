@@ -12,8 +12,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "ai": "^6.0.91",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "openai": "^6.22.0",
     "zod": "^4.3.5"
   }
 }
