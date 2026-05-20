@@ -9,6 +9,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-24.04
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -20,14 +21,30 @@ jobs:
           run_install: false
 
       - name: Instalar dependencias
-        run: pnpm install --frozen-lockfile
+        run: |
+          cd 09-ci-cd
+          echo "::group::Instalar dependencias"
+          pnpm install --frozen-lockfile
+          echo "::endgroup::"
 
       - name: Lint
-        run: pnpm lint
+        run: |
+          cd 09-ci-cd
+          echo "::group::Lint"
+          pnpm lint
+          echo "::endgroup::"
 
       - name: Test
-        run: pnpm test
+        run: |
+          cd 09-ci-cd
+          echo "::group::Test"
+          pnpm test
+          echo "::endgroup::"
 
       - name: Build
-        run: pnpm build
+        run: |
+          cd 09-ci-cd
+          echo "::group::Build"
+          pnpm build
+          echo "::endgroup::"
         

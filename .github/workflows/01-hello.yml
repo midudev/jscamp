@@ -1,8 +1,7 @@
 name: 01 - Hello
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   hello:
