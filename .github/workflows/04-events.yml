@@ -1,10 +1,7 @@
 name: 04 - Events
 
 on:
-  issues:
-    types: [opened, reopened]
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
 
 jobs:
   inspect-event:
