@@ -1,0 +1,24 @@
+{
+  "name": "@jscamp-ci/backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "build": "node --check src/tasks.js && node --check src/app.js && node --check src/server.js",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "supertest": "^7.2.2",
+    "vitest": "^4.1.6"
+  }
+}
