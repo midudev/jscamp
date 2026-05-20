@@ -10,12 +10,8 @@ jobs:
   frontend-lint:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup pnpm and Node.js
-        uses: ./.github/actions/setup-pnpm-ci-cd
-
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Lint
         run: |
           cd 09-ci-cd
@@ -26,12 +22,8 @@ jobs:
   frontend-test:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup pnpm and Node.js
-        uses: ./.github/actions/setup-pnpm-ci-cd
-
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Test
         run: |
           cd 09-ci-cd
@@ -39,15 +31,24 @@ jobs:
           pnpm test:frontend
           echo "::endgroup::"
 
+  frontend-build:
+    needs: [frontend-lint, frontend-test]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Build
+        run: |
+          cd 09-ci-cd
+          echo "::group::Build"
+          pnpm build:frontend
+          echo "::endgroup::"
+
   backend-lint:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup pnpm and Node.js
-        uses: ./.github/actions/setup-pnpm-ci-cd
-
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Lint
         run: |
           cd 09-ci-cd
@@ -58,15 +59,26 @@ jobs:
   backend-test:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup pnpm and Node.js
-        uses: ./.github/actions/setup-pnpm-ci-cd
-
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Test
         run: |
           cd 09-ci-cd
           echo "::group::Test"
           pnpm test:backend
+          echo "::endgroup::"
+
+  backend-smoke-test:
+    needs: [backend-lint, backend-test]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Smoke test
+        run: |
+          cd 09-ci-cd
+          echo "::group::Smoke test"
+          pnpm build:backend
+          pnpm start:backend
+          curl -X GET http://localhost:3000/health
           echo "::endgroup::"

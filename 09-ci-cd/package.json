@@ -13,6 +13,7 @@
     "test": "pnpm -r test",
     "build:frontend": "pnpm --filter @jscamp-ci/frontend build",
     "build:backend": "pnpm --filter @jscamp-ci/backend build",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "start:backend": "pnpm --filter @jscamp-ci/backend start"
   }
 }
