@@ -1,0 +1,54 @@
+name: 10 - Claude Security Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: claude-security-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  security-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Security Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Revisa la seguridad de esta pull request y publica un comentario
+            en la PR con el resultado.
+
+            Prioriza hallazgos reales y accionables. Busca especialmente:
+            - Exposición de secretos, tokens, credenciales o datos sensibles.
+            - Inyecciones: SQL, shell, HTML, template, prompt injection o path traversal.
+            - Problemas de autenticación, autorización, permisos o escalada de privilegios.
+            - Uso inseguro de dependencias, acciones de GitHub o scripts de CI.
+            - Validación insuficiente de entradas externas.
+            - Riesgos OWASP relevantes para los cambios de esta PR.
+
+            Responde en español, de forma concisa. Si no encuentras riesgos claros,
+            dilo explícitamente y menciona cualquier zona que no hayas podido verificar.
+            No propongas cambios cosméticos ni de estilo salvo que afecten a seguridad.
+            Usa `gh pr comment` para publicar un comentario final en la PR.
+          claude_args: |
+            --max-turns 10
+            --allowedTools "Read,Grep,Glob,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+            --append-system-prompt "Actua como auditor de seguridad de aplicaciones y CI/CD. No ejecutes codigo de la PR. Revisa solo el diff y el contexto necesario. Prioriza bugs explotables, secretos, permisos y supply chain."
