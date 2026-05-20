@@ -9,6 +9,9 @@ on:
 jobs:
   inspect-event:
     runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+      
     steps:
       - name: Inspect event
         run: |
