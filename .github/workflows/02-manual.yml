@@ -2,16 +2,59 @@ name: 02 - Manual
 
 on:
   workflow_dispatch:
+    inputs:
+      logging_level:
+        description: "Nivel de log"
+        required: true
+        default: "info"
+        type: choice
+        options:
+          - info
+          - debug
+          - warn
+          - error
+      
+      environment:
+        description: "Entorno"
+        type: environment
+
+      dry_run:
+        description: "Ejecutar sin aplicar los cambios"
+        required: false
+        default: false
+        type: boolean
+
+      reason:
+        description: "Motivo de la ejecución"
+        required: false
+        default: "Manual execution"
+        type: string
 
 jobs:
   manual:
     runs-on: ubuntu-24.04
     steps:
-      - name: Saludar
-        run: echo "Hola desde GitHub Actions!"
+      - name: Mostrar todos los inputs
+        env:
+          LOG_LEVEL: ${{ inputs.logging_level }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          REASON: ${{ inputs.reason }}
+        run: |
+          echo "LOG_LEVEL: $LOG_LEVEL"
+          echo "ENVIRONMENT: $ENVIRONMENT"
+          echo "DRY_RUN: $DRY_RUN"
+          echo "REASON: $REASON"
 
-      - name: Ver fecha del runner
-        run: date
 
-      - name: Ver archivos disponibles
-        run: ls -la
+      - name: Deploy (solo si no es dry-run)
+        if: ${{ !inputs.dry_run }}
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          echo "Deploying to $ENVIRONMENT"
+
+      - name: Solo log si es dry-run
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo "Dry run: no changes applied"
