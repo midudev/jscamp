@@ -11,14 +11,14 @@ function validateCreate (req, res, next) {
     return next()
   }
 
-  return res.status(400).json({ error: 'Invalid request', details: result.error.errors })
+  return res.status(400).json({ error: 'Invalid request', details: JSON.parse(result.error.message) })
 }
 
 // Middleware de validación para actualización parcial
 const validateUpdate = (req, res, next) => {
   const result = validatePartialJob(req.body)
   if (!result.success) {
-    return res.status(400).json({ error: JSON.parse(result.error.message) })
+    return res.status(400).json({ error: 'Invalid request', details: JSON.parse(result.error.message) })
   }
   req.body = result.data
   next()
