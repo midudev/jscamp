@@ -22,8 +22,8 @@ const useFilters = () => {
   const [textToFilter, setTextToFilter] = useState(() => searchParams.get('text') || '')
 
   const [currentPage, setCurrentPage] = useState(() => {
-    const page = Number(searchParams.get('page'))
-    return Number.isNaN(page) ? page : 1
+    const page = parseInt(searchParams.get('page'))
+    return Number.isNaN(page) ? 1 : page
   })
 
   const [jobs, setJobs] = useState([])
