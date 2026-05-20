@@ -1,0 +1,12 @@
+name: 03 - Schedule
+
+on:
+  schedule:
+    - cron: '0 9 * * MON'
+
+jobs:
+  schedule:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Saludar
+        run: echo "Hola desde GitHub Actions!"
