@@ -7,16 +7,15 @@ on:
     branches: [main]
 
 jobs:
-  ci:
+  frontend-lint:
     runs-on: ubuntu-24.04
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
       - name: Preparar pnpm
         uses: pnpm/action-setup@v6
-        with:
+        with: 
           version: 11
           run_install: false
 
@@ -25,26 +24,86 @@ jobs:
           cd 09-ci-cd
           echo "::group::Instalar dependencias"
           pnpm install --frozen-lockfile
-          echo "::endgroup::"
+
 
       - name: Lint
         run: |
           cd 09-ci-cd
           echo "::group::Lint"
-          pnpm lint
+          pnpm lint:frontend
           echo "::endgroup::"
+
+  frontend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Preparar pnpm
+        uses: pnpm/action-setup@v6
+        with: 
+          version: 11
+          run_install: false
+
+      - name: Instalar dependencias
+        run: |
+          cd 09-ci-cd
+          echo "::group::Instalar dependencias"
+          pnpm install --frozen-lockfile
 
       - name: Test
         run: |
           cd 09-ci-cd
           echo "::group::Test"
-          pnpm test
+          pnpm test:frontend
           echo "::endgroup::"
 
-      - name: Build
+  backend-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Preparar pnpm
+        uses: pnpm/action-setup@v6
+        with: 
+          version: 11
+          run_install: false
+
+      - name: Instalar dependencias
         run: |
           cd 09-ci-cd
-          echo "::group::Build"
-          pnpm build
+          echo "::group::Instalar dependencias"
+          pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: |
+          cd 09-ci-cd
+          echo "::group::Lint"
+          pnpm lint:backend
           echo "::endgroup::"
-        
+
+  backend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Preparar pnpm
+        uses: pnpm/action-setup@v6
+        with: 
+          version: 11
+          run_install: false
+
+      - name: Instalar dependencias
+        run: |
+          cd 09-ci-cd
+          echo "::group::Instalar dependencias"
+          pnpm install --frozen-lockfile
+
+      - name: Test
+        run: |
+          cd 09-ci-cd
+          echo "::group::Test"
+          pnpm test:backend
+          echo "::endgroup::"
