@@ -13,7 +13,7 @@ inputs:
 
 runs:
   using: 'composite'
-  steps: Setup pnpm
+  steps:
     - name: Checkout code
       uses: actions/checkout@v6
 
@@ -30,4 +30,7 @@ runs:
         run_install: false
 
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile
+      shell: bash
+      run: |
+        cd 09-ci-cd
+        pnpm install --frozen-lockfile
