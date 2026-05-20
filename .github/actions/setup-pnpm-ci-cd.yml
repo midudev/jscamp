@@ -1,0 +1,33 @@
+name: Setup pnpm and Node.js for CI/CD
+description: Setup pnpm and Node.js for CI/CD
+
+inputs:
+  node-version:
+    description: "Node.js version"
+    required: false
+    default: "24"
+  pnpm-version:
+    description: "pnpm version"
+    required: false
+    default: "11"
+
+runs:
+  using: 'composite'
+  steps: Setup pnpm
+    - name: Checkout code
+      uses: actions/checkout@v6
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'pnpm'
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v6
+      with:
+        version: ${{ inputs.pnpm-version }}
+        run_install: false
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile

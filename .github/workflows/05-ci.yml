@@ -10,21 +10,8 @@ jobs:
   frontend-lint:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Preparar pnpm
-        uses: pnpm/action-setup@v6
-        with: 
-          version: 11
-          run_install: false
-
-      - name: Instalar dependencias
-        run: |
-          cd 09-ci-cd
-          echo "::group::Instalar dependencias"
-          pnpm install --frozen-lockfile
-
+      - name: Setup pnpm and Node.js
+        uses: ./.github/actions/setup-pnpm-ci-cd@main
 
       - name: Lint
         run: |
@@ -36,20 +23,8 @@ jobs:
   frontend-test:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Preparar pnpm
-        uses: pnpm/action-setup@v6
-        with: 
-          version: 11
-          run_install: false
-
-      - name: Instalar dependencias
-        run: |
-          cd 09-ci-cd
-          echo "::group::Instalar dependencias"
-          pnpm install --frozen-lockfile
+      - name: Setup pnpm and Node.js
+        uses: ./.github/actions/setup-pnpm-ci-cd@main
 
       - name: Test
         run: |
@@ -61,20 +36,8 @@ jobs:
   backend-lint:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Preparar pnpm
-        uses: pnpm/action-setup@v6
-        with: 
-          version: 11
-          run_install: false
-
-      - name: Instalar dependencias
-        run: |
-          cd 09-ci-cd
-          echo "::group::Instalar dependencias"
-          pnpm install --frozen-lockfile
+      - name: Setup pnpm and Node.js
+        uses: ./.github/actions/setup-pnpm-ci-cd@main
 
       - name: Lint
         run: |
@@ -86,20 +49,8 @@ jobs:
   backend-test:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Preparar pnpm
-        uses: pnpm/action-setup@v6
-        with: 
-          version: 11
-          run_install: false
-
-      - name: Instalar dependencias
-        run: |
-          cd 09-ci-cd
-          echo "::group::Instalar dependencias"
-          pnpm install --frozen-lockfile
+      - name: Setup pnpm and Node.js
+        uses: ./.github/actions/setup-pnpm-ci-cd@main
 
       - name: Test
         run: |
