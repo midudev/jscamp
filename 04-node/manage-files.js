@@ -3,14 +3,14 @@ import { join, basename, extname } from 'node:path'
 
 let content = ''
 
-if (process.permission.has('fs.read', 'archivo.txt')) {
+if (process.permission?.has('fs.read', 'archivo.txt')) {
   content = await readFile('archivo.txt', 'utf-8')
   console.log(content)
 } else {
   console.log('No tienes permiso para leer el archivo.')
 }
 
-if (process.permission.has('fs.write', 'output/files/documents')) {
+if (process.permission?.has('fs.write', 'output/files/documents')) {
 const outputDir = join('output', 'files', 'documents')
 await mkdir(outputDir, { recursive: true })
 
