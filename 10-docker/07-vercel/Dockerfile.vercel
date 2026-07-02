@@ -1,0 +1,24 @@
+# Ejemplo 06 — Despliegue a producción en Vercel
+#
+# Vercel detecta este archivo "Dockerfile.vercel" en la raíz del proyecto,
+# construye la imagen, la almacena, la despliega y la autoescala sobre Fluid compute.
+# Más info: https://vercel.com/blog/dockerfile-on-vercel
+#
+# Probar en local:
+#   docker build -f Dockerfile.vercel -t web-vercel .
+#   docker run --rm -p 8080:80 -e PORT=80 web-vercel
+#   # abre http://localhost:8080
+#
+# Desplegar:
+#   npm i -g vercel && vercel login
+#   vercel           # preview
+#   vercel --prod    # producción
+
+FROM golang:1.24-alpine AS builder
+WORKDIR /src
+COPY . .
+RUN go build -o /server main.go
+
+FROM alpine:3.20 AS runner
+COPY --from=builder /server /server
+CMD ["/server"]
