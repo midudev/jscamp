@@ -1,2 +1,11 @@
 **/.DS_Store
 node_modules/
+
+# Build output
+dist/
+
+# Vercel
+.vercel
+
+# Runtime data (Docker volumes example)
+10-docker/04-volumes/data/
