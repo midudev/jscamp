@@ -1,0 +1,16 @@
+{
+  "name": "midu-mini",
+  "version": "1.0.0",
+  "description": "Ejemplo de multi-stage build: se compila con esbuild y la imagen final no lo incluye",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/server.js --bundle --platform=node --format=esm --outfile=dist/server.js",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "canvas-confetti": "1.9.3"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0"
+  }
+}
