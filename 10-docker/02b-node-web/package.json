@@ -1,0 +1,13 @@
+{
+  "name": "midu-web",
+  "version": "1.0.0",
+  "description": "Web de Node.js + Express dockerizada (ejemplo del curso de Docker)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
